@@ -1,0 +1,52 @@
+name: Nightly Smoke
+
+on:
+  schedule:
+    # 22:00 Europe/Berlin (CI runs in UTC; adjust if needed)
+    - cron: "0 21 * * *"
+  workflow_dispatch:
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install deps
+        working-directory: automation/playwright
+        run: npm ci
+
+      - name: Install Playwright browsers
+        working-directory: automation/playwright
+        run: npx playwright install --with-deps
+
+      - name: Run smoke tests
+        working-directory: automation/playwright
+        env:
+          CI: "true"
+          BASE_URL: ${{ secrets.SMOKE_BASE_URL }}
+          SMOKE_USER_EMAIL: ${{ secrets.SMOKE_USER_EMAIL }}
+          SMOKE_USER_PASSWORD: ${{ secrets.SMOKE_USER_PASSWORD }}
+        run: npm run test:smoke
+
+      - name: Upload HTML report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-html-report
+          path: automation/playwright/output/html-report
+
+      - name: Upload JUnit results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: junit-results
+          path: automation/playwright/output/junit/results.xml

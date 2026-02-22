@@ -1,0 +1,29 @@
+---
+alwaysApply: true
+---
+
+# Testing Rules (Low-Code Platform)
+
+## Default Mindset
+- Always start with exploratory testing before writing automation.
+- Identify Critical Paths (CP) first; treat them as release gates.
+- Prefer risk-based coverage over broad checkbox testing.
+
+## Output Format (Mandatory)
+- For exploratory: create a charter + session notes.
+- For critical path: create a manual CP test case in /testcases/manual.
+- For automation: implement in Playwright under /automation/playwright/tests.
+
+## Critical Path Definition
+A CP is any flow that impacts:
+- Authentication / Authorization / Tenant isolation
+- Payments / billing
+- Data integrity (create/update/delete), auditability
+- Messaging / documents / PII access
+- Cross-app navigation / shared database writes
+
+## Automation Criteria
+Only automate if:
+- UI selectors are stable OR we have data-testid
+- Flow is deterministic enough (no flaky async without hooks)
+- Test data strategy exists (seed/reset)

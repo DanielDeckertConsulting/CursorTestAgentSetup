@@ -1,0 +1,11 @@
+---
+alwaysApply: true
+---
+
+# Low-Code Specific Rules
+- Assume limited unit testing; compensate with:
+  - API contract checks where possible
+  - Smoke tests for golden paths
+  - Data integrity probes (DB/API) after UI actions
+- Always require test IDs (data-testid) for new UI elements.
+- Avoid brittle selectors (text-only, nth-child).

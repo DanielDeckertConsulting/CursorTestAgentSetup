@@ -1,0 +1,12 @@
+{
+  "name": "lowcode-playwright-tests",
+  "private": true,
+  "scripts": {
+    "test:smoke": "playwright test --project=chromium --grep @smoke",
+    "test:e2e": "playwright test --project=chromium --grep @e2e",
+    "report": "playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.50.0"
+  }
+}

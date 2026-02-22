@@ -1,0 +1,10 @@
+---
+alwaysApply: true
+---
+
+# Quality Gates
+- No release if any CP manual test is red.
+- No merge if PR smoke suite is red.
+- Flaky test policy:
+  - First flake => quarantine + ticket
+  - Second flake => fix required before expanding suite
