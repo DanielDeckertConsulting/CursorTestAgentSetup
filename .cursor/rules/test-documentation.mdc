@@ -1,0 +1,24 @@
+---
+description: Structure and naming for test documentation and artifacts.
+alwaysApply: true
+---
+
+# Test Documentation Structure
+
+## Directory layout (canonical)
+- `docs/` — Test strategy, critical paths, test plans, reports.
+  - `docs/02-critical-paths.md` — List of critical paths and ownership.
+  - `docs/test-plans/<feature-slug>-plan.md` — Per-feature test plans.
+  - `docs/reports/` — Release readiness, triage reports (e.g. `release-readiness-<date>.md`).
+- `testcases/exploratory/` — Charters and session notes (`<feature>-charter.md`).
+- `testcases/manual/` — Manual test cases: `CP-<id>-<slug>.md` (critical path), `REG-<bug-id>-<slug>.md` (regression), or `<feature>-<id>.md`.
+- `automation/playwright/tests/` — Smoke (`smoke/`), E2E (`e2e/`), regression (`regression/`).
+
+## Naming
+- Use lowercase slugs; hyphens for multi-word (e.g. `login`, `checkout-flow`, `REG-123-cart-total`).
+- No PII in file names or content; use placeholders in examples.
+
+## When adding tests or docs
+- Create the appropriate file under the paths above.
+- If adding a critical path: update `docs/02-critical-paths.md`.
+- If adding a regression: use `REG-` prefix and optional link to bug id in the file.

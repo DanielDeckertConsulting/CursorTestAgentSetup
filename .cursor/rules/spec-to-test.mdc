@@ -1,0 +1,33 @@
+---
+description: Turn specifications and website context into test plans, manual tests, and automation.
+alwaysApply: false
+globs: docs/**/*.md, testcases/**/*.md, automation/**/*
+---
+
+# Spec-to-Test Flow
+
+When generating tests from a **specification** or **website examination**:
+
+## Inputs
+- Feature/requirements specification (paste or path)
+- Optional: target URL or app context for website examination
+
+## Mandatory outputs (in order)
+1. **Test plan** → `docs/test-plans/<feature-slug>-plan.md`  
+   - Scope, risks, in/out of scope, test levels (exploratory → manual CP → automation).
+2. **Exploratory charter** → `testcases/exploratory/<feature-slug>-charter.md`  
+   - Goal, scope, risks, test ideas, timeboxes, expected outputs (see test-charter command).
+3. **Critical path decision**  
+   - If the flow is a CP (auth, payments, data integrity, PII, tenant isolation): create or update `docs/02-critical-paths.md` and create manual CP case.
+4. **Manual test case(s)** → `testcases/manual/CP-<id>-<slug>.md` or `testcases/manual/<feature-slug>-<id>.md`  
+   - Preconditions, numbered steps, expected results per step, data integrity/security checks, automation readiness notes.
+5. **Automation only when criteria are met**  
+   - Stable selectors or `data-testid`, deterministic flow, test data strategy. Output → `automation/playwright/tests/smoke/` or `e2e/` with fixtures as needed.
+
+## Website examination
+- If the task is to "examine a website" or "analyze a URL": infer a minimal spec (main flows, key pages, forms, navigation), then apply the flow above.
+- Document assumed scope and any limitations (e.g. "no auth flow observed") in the test plan.
+
+## References
+- Use commands: `test-charter`, `test-case`, `smoke-suite`.
+- Use agents: Test Lead, Exploratory Tester, Automation Engineer (Playwright).

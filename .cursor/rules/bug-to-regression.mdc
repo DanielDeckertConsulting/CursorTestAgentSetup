@@ -1,0 +1,37 @@
+---
+description: Turn bug specifications into regression tests (manual + automated) and fix-verification steps.
+alwaysApply: false
+globs: testcases/**/*.md, automation/**/*.ts, docs/**/*.md
+---
+
+# Bug-to-Regression-Test Flow
+
+When generating tests from a **bug specification** (to cover the bug and verify the fix):
+
+## Inputs
+- Bug report or specification: summary, steps to reproduce, expected vs actual, environment, suspected root cause (paste or path).
+
+## Mandatory outputs
+1. **Regression test (manual)** → `testcases/manual/REG-<bug-id>-<slug>.md`  
+   - Purpose: "Reproduce bug and verify fix."  
+   - Preconditions (env, data, version if relevant).  
+   - Steps: exact repro steps from the bug.  
+   - Expected after fix: clear pass criteria.  
+   - Optional: negative assertions (e.g. error must not occur, data must not corrupt).
+
+2. **Regression test (automated)** when feasible → `automation/playwright/tests/regression/`  
+   - One or more tests that:  
+     - Reproduce the bug scenario (steps from bug spec).  
+     - Assert the fixed behavior (expected outcome).  
+   - Use `data-testid` or stable selectors; document if selectors are missing.  
+   - Name file/spec meaningfully: e.g. `REG-<bug-id>-<short-slug>.spec.ts`.
+
+3. **Update test plan or CP list** if the bug touches a critical path: add to `docs/02-critical-paths.md` or `docs/test-plans/` as a regression scenario.
+
+## Fix verification
+- Every bug-based test must have an explicit "expected after fix" or assertion that would be green once the bug is fixed and red before.
+- Prefer one focused test per bug; split only if multiple distinct behaviors need coverage.
+
+## References
+- Use command: `bug-report` for format; use command `bug-to-regression` for this flow.
+- Use agents: Triage (categorize), Automation Engineer (Playwright) for implementation.
